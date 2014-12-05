@@ -30,8 +30,12 @@
                     <li class="abc"><a href="@routes.Application.index()">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-center">
+                    @if(!session.contains("usn")){
                     <li><a href="signup.html">Sign up</a></li>
-                    <li><a href="@routes.Application.login()">Log in</a></li>
+                    <li><a href="@routes.Application.login()">Log in</a></li>}
+                    @if(session.contains("usn")){
+                    <li><a href="@routes.Application.logout()">Logout</a></li>}
+
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>

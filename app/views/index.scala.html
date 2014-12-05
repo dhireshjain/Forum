@@ -9,7 +9,13 @@
             <button type="button" onclick="document.location.href = '@routes.QuestionView.questions(subjects.name)'" style="width:190px;"class="btn btn-default btn-lg btn-block">@subjects.name</button>
         }
 
-    </div></div><br>
+    </div></div>
+    @if(flash.contains("success")) {
+        <p class="success">
+        @flash.get("success")
+        </p>
+    }
+    <br>
     <div class="col-lg-8">
    @for(i<-user){
        <h3 style="color:blue">@i.usn @i.username @i.password @i.firstName @i.lastName @i.email</h3>

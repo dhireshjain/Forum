@@ -83,6 +83,13 @@ public class Users extends Model {
         return user;
     }
 
+    public static Users authenticate(String email, String password) {
+        return find.where()
+                .eq("usn", email)
+                .eq("password", password)
+                .findUnique();
+    }
+
     public static void deleter(){
 
         List<Users> users = Ebean.find(Users.class)

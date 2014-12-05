@@ -5,6 +5,7 @@ import models.Question;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.display;
 
 import java.util.List;
@@ -20,12 +21,14 @@ public class QuestionView extends Controller {
 
    private static Form<UserAnswer> form = Form.form(UserAnswer.class);
 
+    @Security.Authenticated(Secured.class)
     public static Result viewQuestion(long id) {
         Question question = Question.find.ref(id);
         List<Answer> answer = Answer.getAnswers(id);
         return ok(views.html.displayquestion.render(question, answer, form));
     }
 
+    @Security.Authenticated(Secured.class)
     public static Result addAnswer(long id){
         Form<UserAnswer> currentForm = form.bindFromRequest();
         try {
@@ -37,6 +40,7 @@ public class QuestionView extends Controller {
         return redirect(routes.QuestionView.viewQuestion(id));
     }
 
+    @Security.Authenticated(Secured.class)
     public static Result questions(String name){
 
         List<Question> list = Question.getSubjectQuestions(name);

@@ -19,6 +19,13 @@ public class Application extends Controller {
 
         public String usn;
         public String password;
+
+        public String validate() {
+            if(Users.authenticate(usn, password) == null) {
+                return "Invalid user or password";
+            }
+            return null;
+        }
     }
 
     public static Form<Login> login = Form.form(Login.class);
@@ -58,10 +65,27 @@ public class Application extends Controller {
     }
 
     public static Result login(){
+        return ok(enter.render(login));
+    }
 
-        
-        return ok();
+    public static Result authenticate(){
+        Form<Login> loginForm = login.bindFromRequest();
+        if(loginForm.hasErrors())
+            return badRequest(enter.render(loginForm));
+        else{
+            session().clear();
+            session("usn",loginForm.get().usn);
+            return redirect(routes.Application.index());
+        }
 
+    }
+
+    public static Result logout() {
+        session().clear();
+        flash("success", "You've been logged out");
+        return redirect(
+                routes.Application.index()
+        );
     }
 
 }
