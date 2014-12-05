@@ -1,12 +1,15 @@
 @(questions:List[Question])
 
-@main("Quwarions",null){
+<html>
 
-    <div class="pagination" style="margin:10px;">
+
+    <div class="pagination" style="margin:10px; background-color: grey">
+        <ul>
         @for(i<-questions) {
-            <h1><a href="@routes.QuestionView.viewQuestion(i.getId())">@i.getTitle()</a></h1>
-            <h2>@i.getBody()</h2>
+         <li><h1><a href="@routes.QuestionView.viewQuestion(i.id)">@i.title</a></h1>
+            <h2>@i.body</h2></li>
         }
+        </ul>
     </div>
 
-}
+</html>

@@ -1,27 +1,36 @@
-@(question: Question,answer: List[Answer], form: Form[QuestionView.UserAnswer])
+@(question: Question, answer: List[Answer], form: Form[QuestionView.UserAnswer])
 
-@main(question.getTitle(),null){
-    <div>
-    <h2>@question.getTitle()</h2>
-    <h4>@question.getUser().getUsn()</h4>
-    <h3>@question.getBody()</h3>
+@main(question.title){
+    <div style="background-color: lightgrey">
+    <h2>@question.title</h2>
+    <h4>@question.user.usn</h4>
+    <h3>@question.body</h3>
 
-        @helper.form(routes.QuestionView.addAnswer(question.getId())) {
+        @helper.form(routes.QuestionView.addAnswer(question.id)) {
 
-            <textarea name="body" value="@form("body").value()" placeholder="Type something..." style="width: 100%;  min-height: 100px;">
-            </textarea><br/>
-            <button class="btn-default" style="text-align: center"><input type="submit"></button>
+            <textarea name="body" id="styled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
+            <br>
+            <button class="btn-lg btn-primary">Submit</button>
 
         }
     </div>
 
-    <ul>
+
     @for(i <- answer) {
-        <li>
-            <h3>@i.getBody()</h3>
-            <h4>@i.getUser().getUsn()</h4>
-            <h4>@i.getTime()</h4>
-        </li>
+        <div class="jumbotron" style="background-color:darkgrey ">
+            <div class="container-wrap">
+            <h5 style="text-align:right; color:green;">User: @i.user.usn Time: @i.time</h5>
+            <p>@i.body</p>
+            @helper.form(routes.QuestionView.addAnswer(question.id)) {
+
+                <textarea name="body" id="ministyled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
+                <br>
+                <button id="btn" class="btn-primary" onclick="showStuff(); " >Add Comment</button>
+
+            }
+        </div>
+        </div>
     }
-    </ul>
+
+
 }

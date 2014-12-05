@@ -3,6 +3,7 @@ package controllers;
 import models.Question;
 import models.Subject;
 import models.Users;
+import play.data.Form;
 import play.mvc.*;
 
 import views.html.*;
@@ -14,15 +15,15 @@ import java.util.List;
 
 public class Application extends Controller {
 
+    public static class Login {
+
+        public String usn;
+        public String password;
+    }
+
+    public static Form<Login> login = Form.form(Login.class);
+
     public static Result index() {
-
-    	//Users.create("e","f","g");
-
-        //UserProfile.create("a","b","c","d",new Users("e","f","g"));
-
-        //UserProfile.deleter();
-        //Users.deleter();
-
         try {
             Subject.create("Operating Systems",0L);
             Subject.create("Java",0L);
@@ -32,7 +33,7 @@ public class Application extends Controller {
             Subject.create("Software Engineering",0L);
 
             Users.create("1ms12cs028", "dhiresh", "N","Dhiresh","Jain","dhiresh@gmail.com");
-            Question.create("Cassandra","Struggling with cassandra","2-2-1024","1ms12cs028", "DBMS");
+            Question.create("Cassandra","Struggling with cassandra",new java.sql.Date(new java.util.Date().getTime()),"1ms12cs028", "DBMS");
 //          Answer.create("Egork is the man",1L,"1ms12cs029","10101");
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         //Users.create("1ms12cs029","dhiresh a","abc");
             //UserProfile.create("");
@@ -48,19 +49,19 @@ public class Application extends Controller {
             }
         }
 
-        List<Users> list = Users.getAllUsers();
-        List<Question> list2 = Question.getAllQuestion();
-        List<Subject> list3 = Subject.getAllSubject();
-        List<Question> list4 = Question.questionsUsn("1ms12cs028");
+        List<Users> users = Users.getAllUsers();
+        List<Question> questions = Question.getAllQuestion();
+        List<Subject> subjects = Subject.getAllSubject();
+        List<Question> usnQuestions = Question.getUsnQuestions("1ms12cs028");
 
-        return ok(index.render(list,list2,list3,list4));
+        return ok(index.render(users,questions,subjects,usnQuestions));
     }
 
-    public static Result questions(String subject){
+    public static Result login(){
 
-        List<Question> list = Question.getSubjectQuestions(subject);
-        System.out.println(list.size());
-        return ok(display.render(list));
+        
+        return ok();
+
     }
 
 }

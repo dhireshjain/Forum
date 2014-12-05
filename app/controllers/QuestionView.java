@@ -5,6 +5,7 @@ import models.Question;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.display;
 
 import java.util.List;
 
@@ -28,11 +29,19 @@ public class QuestionView extends Controller {
     public static Result addAnswer(long id){
         Form<UserAnswer> currentForm = form.bindFromRequest();
         try {
-            Answer.create(currentForm.get().body, id, "1ms12cs028", "1-1-1");
+            Answer.create(currentForm.get().body, id, "1ms12cs028", new java.sql.Date(new java.util.Date().getTime()));
         }
         catch(Exception e){
             System.out.println("\\/\\/\\/\\/\\");
         }
         return redirect(routes.QuestionView.viewQuestion(id));
     }
+
+    public static Result questions(String name){
+
+        List<Question> list = Question.getSubjectQuestions(name);
+        System.out.println(list.size());
+        return ok(display.render(list));
+    }
+
 }

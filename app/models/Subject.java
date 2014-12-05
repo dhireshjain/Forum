@@ -23,26 +23,11 @@ public class Subject extends Model {
     @Constraints.Required
     public long number;
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getNumber() {
-        return number;
-    }
-
-    public void setNumber(long number) {
-        this.number = number;
-    }
+    public static Model.Finder<String,Subject> find = new Model.Finder<String,Subject>(String.class,Subject.class);
 
     public Subject(String name, Long no){
-        setName(name);
-        setNumber(number);
+        this.name = name;
+        this.number = no;
     }
 
     public static void create(String name , Long number){
@@ -50,13 +35,9 @@ public class Subject extends Model {
         subject.save();
     }
 
-    public static Model.Finder<String,Subject> find = new Model.Finder<String,Subject>(String.class,Subject.class);
-
     public static List<Subject> getAllSubject(){
-
         List<Subject> list = Ebean.find(Subject.class).findList();
         return list;
-
     }
 
 }

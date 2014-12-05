@@ -1,4 +1,4 @@
-@(title: String,subjects:List[Subject])(content: Html)
+@(title: String)(content: Html)
 
 <!DOCTYPE html>
 
@@ -27,26 +27,16 @@
             <div class="collapse navbar-collapse" id="drop">
 
                 <ul class="nav navbar-nav">
-                    <li class="abc"><a href="#">Home</a></li>
+                    <li class="abc"><a href="@routes.Application.index()">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-center">
                     <li><a href="signup.html">Sign up</a></li>
-                    <li><a href="#foot">Log in</a></li>
+                    <li><a href="@routes.Application.login()">Log in</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
         <div>
-        <div class="col-lg-3 nav-sidebar">
-
-
-
-            <h2 class="sub-header"><cufontext>&nbsp&nbsp&nbsp&nbsp&nbspSubjects</cufontext></h2>
-            @for(subject<-subjects) {
-                <button type="button" onclick="document.location.href = @routes.Application.questions(subject.getName())" style="width:190px;"class="btn btn-default btn-lg btn-block">subject.name</button>
-            }
-
-        </div>
-        <div class="col-lg-8" style="background-color: #EEEEEE;margin-top:25px; border:4px solid #ceeeee;">
+        <div style="background-color: #EEEEEE;margin-top:25px; border:4px solid #ceeeee;">
         @content
         </div>
         </div>

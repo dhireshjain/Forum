@@ -54,75 +54,22 @@ public class Users extends Model {
     @Column(unique = true,nullable = false)
     public String email;
 
-
-    //@OneToOne(mappedBy = "user")
-   //public UserProfile profile;
-
-
-    public String getUsn(){
-        return usn;
-    }
-    public void setUsn(String usn)  {
-        this.usn = usn;
-    }
-
-    public String getUsername(){
-        return username;
-    }
-    public void setUsername(String username){
-        this.username = username;
-    }
-
-    public String getPassword(){
-        return password;
-    }
-    public void setPassword(String password){
-        this.password = password;
-    }
-
-    public String getFirstName(){
-        return firstName;
-    }
-    public void setFirstName(String firstName){
-        this.firstName = firstName;
-    }
-
-    public String getLastName(){
-        return lastName;
-    }
-    public void setLastName(String lastName){
-        this.lastName = lastName;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-    public void setEmail(String email){this.email = email;
-    }
-
     public Users(String usn, String username, String password,String firstName, String lastName, String email) {
 
-            setUsn(usn);
-            setUsername(username);
-            setPassword(password);
-            setFirstName(firstName);
-            setLastName(lastName);
-            setEmail(email);
-
-    }
-
-    public static void create(String usn, String username, String password, String firstName, String lastName,String email) throws IOException {
-       try {
-           Users users = new Users(usn, username, password, firstName, lastName, email);
-           users.save();
-       }
-       catch(Exception e){System.out.println("asd");
-           throw new IOException(e.toString());
-       }
-
+            this.usn = usn;
+            this.username = username;
+            this.password = password;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
     }
 
     public static Model.Finder<String,Users> find = new Model.Finder<String,Users>(String.class, Users.class);
+
+    public static void create(String usn, String username, String password, String firstName, String lastName,String email) {
+           Users users = new Users(usn, username, password, firstName, lastName, email);
+           users.save();
+    }
 
     public static List<Users> getAllUsers() {
         List<Users> users = Ebean.find(Users.class)

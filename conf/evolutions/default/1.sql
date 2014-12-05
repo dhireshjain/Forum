@@ -9,7 +9,7 @@ create table answer (
   question_id               bigint,
   upvotes                   bigint,
   downvotes                 bigint,
-  time                      varchar(255),
+  time                      date,
   user_usn                  varchar(255),
   constraint pk_answer primary key (id))
 ;
@@ -18,7 +18,7 @@ create table question (
   id                        bigint auto_increment not null,
   title                     varchar(1000) not null,
   body                      varchar(1000) not null,
-  time                      varchar(255),
+  time                      date,
   user_usn                  varchar(255),
   subject_name              varchar(255),
   constraint uq_question_body unique (body),
