@@ -1,0 +1,23 @@
+
+@(user:List[Users],questions:List[Question],subject:List[Subject],q1:List[Question])
+
+@main("Welcome to Play",subject) {
+
+   @for(i<-user){
+       <h3 style="color:blue">@i.getUsn() @i.getUsername() @i.getPassword() @i.getFirstName() @i.getLastName() @i.getEmail()</h3>
+       <p>----</p>
+   }
+   @for(i<-questions){
+        <h3 style="color:red">@i.getId() @i.getUser().getUsn()  @i.getSubject().getName() @i.getUser().getUsername() @i.getUser().getPassword()
+            @i.getTitle @i.getBody() @i.getTime()</h3>
+        <p>----</p>
+   }
+   @for(i<-subject){
+       <h3 style="color:yellow">@i.getName @i.getNumber</h3>
+   }
+    @for(i<-q1){
+        <h3 style="color:green">@i.getId() @i.getUser().getUsn()  @i.getSubject().getName() @i.getUser().getUsername() @i.getUser().getPassword()
+            @i.getTitle @i.getBody() @i.getTime()</h3>
+        <p>----</p>
+    }
+}
