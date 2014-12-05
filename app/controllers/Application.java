@@ -4,6 +4,7 @@ import models.Question;
 import models.Subject;
 import models.Users;
 import play.data.Form;
+import play.data.validation.Constraints;
 import play.mvc.*;
 
 import views.html.*;
@@ -30,6 +31,27 @@ public class Application extends Controller {
 
     public static Form<Login> login = Form.form(Login.class);
 
+    public static class SignUp {
+
+        @Constraints.Required
+        public String usn;
+        public String username;
+        public String password;
+        public String firstName;
+        public String lastName;
+        public String email;
+
+        public String validate() {
+
+            if(Users.signUpAuthenticator(usn,username,password,firstName,lastName,email)==null){
+                return "Invalid SignUp Details";
+            }
+            return null;
+        }
+    }
+
+    public static Form<SignUp> signup = Form.form(SignUp.class);
+
     public static Result index() {
         try {
             Subject.create("Operating Systems",0L);
@@ -41,9 +63,6 @@ public class Application extends Controller {
 
             Users.create("1ms12cs028", "dhiresh", "N","Dhiresh","Jain","dhiresh@gmail.com");
             Question.create("Cassandra","Struggling with cassandra",new java.sql.Date(new java.util.Date().getTime()),"1ms12cs028", "DBMS");
-//          Answer.create("Egork is the man",1L,"1ms12cs029","10101");
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        //Users.create("1ms12cs029","dhiresh a","abc");
-            //UserProfile.create("");
         }
         catch(Exception pe) {
             try {

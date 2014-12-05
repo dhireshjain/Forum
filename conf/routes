@@ -2,21 +2,28 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+#Admin
+
+
+
 # Home page
-GET         /                          controllers.Application.index()
+GET         /                         controllers.Application.index()
 
-GET         /login                     controllers.Application.login()
+GET         /login                    controllers.Application.login()
 
-POST        /login                     controllers.Application.authenticate()
+POST        /login                    controllers.Application.authenticate()
 
-GET         /logout                    controllers.Application.logout()
+GET         /logout                   controllers.Application.logout()
 
 #Displaying question with answers and comments
-GET         /questions/:id             controllers.QuestionView.viewQuestion(id: Long)
+GET         /questions/:id            controllers.QuestionView.viewQuestionById(id: Long)
 
-GET         /question/:subject        controllers.QuestionView.questions(subject)
+GET         /question/:subject        controllers.QuestionView.viewAllQuestions(subject)
 
-POST        /questions/:id             controllers.QuestionView.addAnswer(id:Long)
+POST        /questions/:id            controllers.QuestionView.addAnswer(id:Long)
+
+POST        /question/:subject        controllers.QuestionView.addQuestion(subject)
+
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file              controllers.Assets.at(path="/public", file)
+GET         /assets/*file             controllers.Assets.at(path="/public", file)
 

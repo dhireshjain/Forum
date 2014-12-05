@@ -90,6 +90,13 @@ public class Users extends Model {
                 .findUnique();
     }
 
+    public static Users signUpAuthenticator(String usn, String username, String password, String firstName, String lastName, String email){
+
+
+
+        return null;
+    }
+
     public static void deleter(){
 
         List<Users> users = Ebean.find(Users.class)

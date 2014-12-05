@@ -1,15 +1,32 @@
-@(questions:List[Question])
+@(questions:List[Question], subject: String, form: Form[QuestionView.UserQuestion])
 
-<html>
+@main("Questions"){
+    <div>
+    @helper.form(routes.QuestionView.addQuestion(subject)) {
+        <h4>Title</h4>
+        <textarea name="title" id="styled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
+        <br>
+        <h4>Body</h4>
+        <textarea name="body" id="styled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
+        <br>
+        <button id="btn" class="btn-primary" >Add Question</button>
+
+    }
+    @if(form.hasGlobalErrors) {
+        <p class="error">
+        @form.globalError.message
+        </p>
+    }
+    </div>
 
 
-    <div class="pagination" style="margin:10px; background-color: grey">
+    <div class="pagination" style="margin:10px; background-color: grey; padding:1em; width: 100%; ">
         <ul>
         @for(i<-questions) {
-         <li><h1><a href="@routes.QuestionView.viewQuestion(i.id)">@i.title</a></h1>
+         <li><h1><a href="@routes.QuestionView.viewQuestionById(i.id)">@i.title</a></h1>
             <h2>@i.body</h2></li>
         }
         </ul>
     </div>
 
-</html>
+}

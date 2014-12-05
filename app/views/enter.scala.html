@@ -2,6 +2,9 @@
 
 @main("Enter"){
 
+    <div class="container">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-4" >
     @helper.form(routes.Application.authenticate){
         <h1>Log in</h1>
 
@@ -22,6 +25,30 @@
         </p>
 
     }
+    </div>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4">
+         @helper.form(routes.Application.authenticate){
+            <h1>Sign Up</h1>
 
+            @if(form.hasGlobalErrors) {
+                <p class="error">
+                @form.globalError.message
+                </p>
+            }
+
+            <p>
+                <input type="name" name="usn" placeholder="Name" value="@form("usn").value">
+            </p>
+            <p>
+                <input type="password" name="password" placeholder="Password">
+            </p>
+            <p>
+                <button type="submit">Login</button>
+            </p>
+
+        }
+        </div>
+    </div>
 
 }

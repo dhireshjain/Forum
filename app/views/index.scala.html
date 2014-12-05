@@ -6,11 +6,11 @@
     <div class="col-lg-3 nav-sidebar">
         <h2 class="sub-header"><cufontext>&nbsp&nbsp&nbsp&nbsp&nbspSubjects</cufontext></h2>
         @for(subjects<-subject) {
-            <button type="button" onclick="document.location.href = '@routes.QuestionView.questions(subjects.name)'" style="width:190px;"class="btn btn-default btn-lg btn-block">@subjects.name</button>
+            <button type="button" onclick="document.location.href = '@routes.QuestionView.viewAllQuestions(subjects.name)'" style="width:190px;"class="btn btn-default btn-lg btn-block">@subjects.name</button>
         }
 
     </div></div>
-    @if(flash.contains("success")) {
+    @if(flash.containsKey("success")) {
         <p class="success">
         @flash.get("success")
         </p>

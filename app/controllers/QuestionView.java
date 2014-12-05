@@ -2,6 +2,7 @@ package controllers;
 
 import models.Answer;
 import models.Question;
+import models.Users;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -17,35 +18,70 @@ public class QuestionView extends Controller {
 
     public static class UserAnswer {
         public String body;
+        public String validate() {
+            if(body.length()==0) {
+                return "Field cannot be empty";
+            }
+            return null;
+        }
     }
 
-   private static Form<UserAnswer> form = Form.form(UserAnswer.class);
+    private static Form<UserAnswer> answerForm = Form.form(UserAnswer.class);
+
+    public static class UserQuestion {
+        public String title;
+        public String body;
+        public String validate() {
+            if(body.length()==0 || title.length()==0) {
+                return "Field cannot be empty";
+            }
+            return null;
+        }
+    }
+
+    private static Form<UserQuestion> questionForm = Form.form(UserQuestion.class);
 
     @Security.Authenticated(Secured.class)
-    public static Result viewQuestion(long id) {
+    public static Result viewQuestionById(long id) {
         Question question = Question.find.ref(id);
         List<Answer> answer = Answer.getAnswers(id);
-        return ok(views.html.displayquestion.render(question, answer, form));
+        return ok(views.html.displayquestion.render(question, answer, answerForm));
     }
 
     @Security.Authenticated(Secured.class)
     public static Result addAnswer(long id){
-        Form<UserAnswer> currentForm = form.bindFromRequest();
-        try {
-            Answer.create(currentForm.get().body, id, "1ms12cs028", new java.sql.Date(new java.util.Date().getTime()));
+
+        Form<UserAnswer> currentForm = answerForm.bindFromRequest();
+
+        if(currentForm.hasErrors()) {
+            Question question = Question.find.ref(id);
+            List<Answer> answer = Answer.getAnswers(id);
+            return badRequest(views.html.displayquestion.render(question, answer, answerForm));
         }
-        catch(Exception e){
-            System.out.println("\\/\\/\\/\\/\\");
-        }
-        return redirect(routes.QuestionView.viewQuestion(id));
+        Answer.create(currentForm.get().body, id, session("usn"), new java.sql.Date(new java.util.Date().getTime()));
+
+        return redirect(routes.QuestionView.viewQuestionById(id));
     }
 
     @Security.Authenticated(Secured.class)
-    public static Result questions(String name){
+    public static Result addQuestion(String subject){
+
+        Form<UserQuestion> currentForm = questionForm.bindFromRequest();
+
+        if(questionForm.hasErrors()) {
+            List<Question> list = Question.getSubjectQuestions(subject);
+            return badRequest(display.render(list,subject,questionForm));
+        }
+        Question.create(currentForm.get().title,currentForm.get().body,new java.sql.Date(new java.util.Date().getTime()),session("usn"),subject);
+
+        return redirect(routes.QuestionView.viewAllQuestions(subject));
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result viewAllQuestions(String name){
 
         List<Question> list = Question.getSubjectQuestions(name);
-        System.out.println(list.size());
-        return ok(display.render(list));
+        return ok(display.render(list,name,questionForm));
     }
 
 }
