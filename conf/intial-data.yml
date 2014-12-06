@@ -1,0 +1,19 @@
+# Users
+
+users:
+
+    - !!models.Users
+        email:      guillaume@sample.com
+        firstName:  Guillaume
+        password:   secret
+        lastName:   Bort
+        usn:        1ms12cs012
+        username:   mama
+
+    - !!models.Users
+        email:      asd@sample.com
+        firstName:  nama
+        password:   secret
+        lastName:   Bort
+        usn:        1ms12cs020
+        username:   dada

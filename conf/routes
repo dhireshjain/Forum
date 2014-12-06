@@ -24,6 +24,8 @@ POST        /questions/:id            controllers.QuestionView.addAnswer(id:Long
 
 POST        /question/:subject        controllers.QuestionView.addQuestion(subject)
 
+POST        /questions/:id/comment            controllers.QuestionView.addComment(id: Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file             controllers.Assets.at(path="/public", file)
 

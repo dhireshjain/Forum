@@ -1,4 +1,4 @@
-@(question: Question, answer: List[Answer], form: Form[QuestionView.UserAnswer])
+@(question: Question, answerWithComments: List[QuestionView.AnswerWithComments], form: Form[QuestionView.UserAnswer])
 
 @main(question.title){
     <div style="background-color: lightgrey">
@@ -20,19 +20,25 @@
     </div>
 
 
-    @for(i <- answer) {
-        <div class="jumbotron" style="background-color:darkgrey ">
+    @for(i <- answerWithComments) {
+        <div class="panel panel-default" style="background-color:darkgrey ">
             <div class="container-wrap">
-            <h5 style="text-align:right; color:green;">User: @i.user.usn Time: @i.time</h5>
-            <p>@i.body</p>
-            @helper.form(routes.QuestionView.addAnswer(question.id)) {
+`           <h5 style="text-align:right; color:green;">User: @i.answer.user.usn Time: @i.answer.time</h5>
+            <p>@i.answer.body</p>
+            @helper.form(routes.QuestionView.addComment(i.answer.id)) {
 
                 <textarea name="body" id="ministyled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
                 <br>
                 <button id="btn" class="btn-primary" onclick="showStuff(); " >Add Comment</button>
-
+                <a href=""><button></button></a>
             }
-        </div>
+            <ul>
+            @for(j<-i.comments){
+                <li style="text-align: right">@j.user.usn @j.time</li>
+                <li>@j.body</li>
+            }
+            </ul>
+            </div>
         </div>
     }
 

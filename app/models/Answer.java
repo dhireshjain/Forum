@@ -39,6 +39,10 @@ public class Answer extends Model {
 
     public static Model.Finder<Long,Answer> find = new Model.Finder<Long,Answer>(Long.class,Answer.class);
 
+    public Answer() {
+
+    }
+
     public static List<Answer> getAllAnswers(){
         List<Answer> list = Answer.find.findList();
         return list;
