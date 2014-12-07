@@ -17,15 +17,13 @@ public class Comment extends Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    public long id;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
     @Column(unique = true, nullable = false, length = 1000)
     public String body;
-
-    long upvotes, downvotes;
 
     public Date time;
 

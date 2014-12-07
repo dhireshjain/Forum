@@ -30,12 +30,14 @@
                 <textarea name="body" id="ministyled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
                 <br>
                 <button id="btn" class="btn-primary" onclick="showStuff(); " >Add Comment</button>
-                <a href=""><button></button></a>
             }
             <ul>
             @for(j<-i.comments){
                 <li style="text-align: right">@j.user.usn @j.time</li>
                 <li>@j.body</li>
+                @if(session().get("usn").compareTo(j.user.usn)==0) {
+                    <a href="@routes.QuestionView.deleteCommentById(j.id)"><button>Delete</button></a>
+                }
             }
             </ul>
             </div>

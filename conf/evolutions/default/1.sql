@@ -17,8 +17,6 @@ create table answer (
 create table comment (
   id                        bigint auto_increment not null,
   body                      varchar(1000) not null,
-  upvotes                   bigint,
-  downvotes                 bigint,
   time                      date,
   answer_id                 bigint,
   user_usn                  varchar(255),
@@ -51,9 +49,6 @@ create table users (
   last_name                 varchar(255) not null,
   email                     varchar(255) not null,
   constraint uq_users_username unique (username),
-  constraint uq_users_password unique (password),
-  constraint uq_users_first_name unique (first_name),
-  constraint uq_users_last_name unique (last_name),
   constraint uq_users_email unique (email),
   constraint pk_users primary key (usn))
 ;

@@ -4,8 +4,9 @@ import models.Question;
 import models.Subject;
 import models.Users;
 import play.data.Form;
-import play.data.validation.Constraints;
 import play.mvc.*;
+
+import static play.data.Form.*;
 
 import views.html.*;
 
@@ -21,19 +22,14 @@ public class Application extends Controller {
         public String usn;
         public String password;
 
-        public String validate() {
-            if(Users.authenticate(usn, password) == null) {
-                return "Invalid user or password";
-            }
-            return null;
-        }
+
     }
 
-    public static Form<Login> login = Form.form(Login.class);
+    public static Form<Login> loginForm = form(Login.class);
 
     public static class SignUp {
 
-        @Constraints.Required
+
         public String usn;
         public String username;
         public String password;
@@ -42,15 +38,11 @@ public class Application extends Controller {
         public String email;
 
         public String validate() {
-
-            if(Users.signUpAuthenticator(usn,username,password,firstName,lastName,email)==null){
-                return "Invalid SignUp Details";
-            }
-            return null;
+            return Users.signUpAuthenticator(usn,username,password,firstName,lastName,email);
         }
     }
 
-    public static Form<SignUp> signup = Form.form(SignUp.class);
+    public static Form<SignUp> signupForm = form(SignUp.class);
 
     public static Result index() {
         try {
@@ -60,8 +52,6 @@ public class Application extends Controller {
             Subject.create("System Software",0L);
             Subject.create("Computer Networks",0L);
             Subject.create("Software Engineering",0L);
-
-            Users.create("1ms12cs028", "dhiresh", "N","Dhiresh","Jain","dhiresh@gmail.com");
             Question.create("Cassandra","Struggling with cassandra",new java.sql.Date(new java.util.Date().getTime()),"1ms12cs028", "DBMS");
         }
         catch(Exception pe) {
@@ -84,26 +74,45 @@ public class Application extends Controller {
     }
 
     public static Result login(){
-        return ok(enter.render(login));
+        return ok(enter.render(loginForm,signupForm));
     }
 
-    public static Result authenticate(){
-        Form<Login> loginForm = login.bindFromRequest();
+
+
+    public static Result authenticateLogin(){
+        Form<Login> loginForm = form(Login.class).bindFromRequest();
+
         if(loginForm.hasErrors())
-            return badRequest(enter.render(loginForm));
+            return badRequest(enter.render(loginForm,signupForm));
         else{
             session().clear();
             session("usn",loginForm.get().usn);
-            return redirect(routes.Application.index());
+            return redirect(controllers.routes.Application.index());
         }
 
+    }
+
+    public static Result authenticateSignup() {
+        Form<SignUp> signUpForm = signupForm.bindFromRequest();
+
+        if(signUpForm.hasErrors())
+        {
+            flash("fail",signUpForm.globalError().message());
+            return badRequest(enter.render(loginForm,signupForm));
+        }
+        else{
+            SignUp obj = signUpForm.get();
+            Users.create(obj.usn,obj.username,obj.password,obj.firstName,obj.lastName,obj.email);
+            flash("success","You've signed up successfully");
+            return redirect(controllers.routes.Application.index());
+        }
     }
 
     public static Result logout() {
         session().clear();
         flash("success", "You've been logged out");
         return redirect(
-                routes.Application.index()
+                controllers.routes.Application.index()
         );
     }
 

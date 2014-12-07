@@ -162,4 +162,11 @@ public class QuestionView extends Controller {
         return ok(display.render(list,name,questionForm));
     }
 
+    public static Result deleteCommentById(long id) {
+        Comment comment = Comment.getCommentById(id);
+        long questionId = comment.answer.question.id;
+        comment.delete();
+
+        return redirect(routes.QuestionView.viewQuestionById(questionId));
+    }
 }

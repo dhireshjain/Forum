@@ -1,54 +1,63 @@
-@(form: Form[Application.Login])
+@(loginForm: Form[Application.Login],signUpform: Form[Application.SignUp])
 
 @main("Enter"){
 
     <div class="container">
     <div class="col-lg-2"></div>
     <div class="col-lg-4" >
-    @helper.form(routes.Application.authenticate){
+    @helper.form(action = routes.Application.authenticateLogin){
         <h1>Log in</h1>
 
-        @if(form.hasGlobalErrors) {
-            <p class="error">
-            @form.globalError.message
-            </p>
-        }
+
 
         <p>
-            <input type="name" name="usn" placeholder="Name" value="@form("usn").value">
+            <input type="name" name="usn" placeholder="USN">
         </p>
         <p>
             <input type="password" name="password" placeholder="Password">
         </p>
+
         <p>
             <button type="submit">Login</button>
         </p>
 
-    }
-    </div>
-        <div class="col-lg-2"></div>
+        }
+        </div>
         <div class="col-lg-4">
-         @helper.form(routes.Application.authenticate){
+        @helper.form(action = routes.Application.authenticateSignup){
             <h1>Sign Up</h1>
-
-            @if(form.hasGlobalErrors) {
-                <p class="error">
-                @form.globalError.message
-                </p>
+            @if(signUpform.hasErrors()){
+                <p>@signUpform.globalError()</p>
+            }
+            @if(flash.containsKey("fail")){
+                <p>@flash.get("fail")</p>
             }
 
+
             <p>
-                <input type="name" name="usn" placeholder="Name" value="@form("usn").value">
+                <input type="name" name="usn" placeholder="USN">
             </p>
             <p>
                 <input type="password" name="password" placeholder="Password">
+            </p><p>
+                <input type="name" name="username" placeholder="Name">
             </p>
             <p>
-                <button type="submit">Login</button>
+                <input type="name" name="firstName" placeholder="firstName">
+            </p>
+            <p>
+                <input type="name" name="lastName" placeholder="lastName">
+            </p>
+            <p>
+                <input type="email" name="email" placeholder="email">
+            </p>
+
+            <p>
+                <button type="submit">SignUp</button>
             </p>
 
         }
-        </div>
+    </div>
     </div>
 
 }

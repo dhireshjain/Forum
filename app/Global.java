@@ -18,7 +18,7 @@ public class Global extends GlobalSettings {
 
         public static void insert(Application app) {
             try{
-            if (Ebean.find(Users.class).findRowCount() == 0) {
+            if (Ebean.find(Users.class).findRowCount() == 0 && false) {
                 @SuppressWarnings("unchecked")
                 Map<String, List<Object>> all = (Map<String, List<Object>>) Yaml.load("intial-data.yml");
 

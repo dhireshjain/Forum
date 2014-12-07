@@ -33,19 +33,16 @@ public class Users extends Model {
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(unique = true,nullable = false)
     public String password;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(unique = true,nullable = false)
     public String firstName;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(unique = true,nullable = false)
     public String lastName;
 
     @NotNull
@@ -83,16 +80,32 @@ public class Users extends Model {
         return user;
     }
 
-    public static Users authenticate(String email, String password) {
+    public static Users authenticate(String usn, String password) {
         return find.where()
-                .eq("usn", email)
+                .eq("usn", usn)
                 .eq("password", password)
                 .findUnique();
     }
 
-    public static Users signUpAuthenticator(String usn, String username, String password, String firstName, String lastName, String email){
+    public static String signUpAuthenticator(String usn, String username, String password, String firstName, String lastName, String email){
 
+        if ((!usn.startsWith("1MS") && !usn.startsWith("1ms")) || usn.length() != 10 || find.where().eq("usn",usn).findUnique() != null)
+            return "Invalid USN";
 
+        if (find.where().eq("username",username).findUnique() != null)
+            return "Username exists";
+
+        if (username.length() == 0)
+            return "Username required";
+
+        if (password.length() < 4)
+            return "Password must be 4 or more characters";
+
+        if (firstName.length() == 0 || lastName.length() == 0)
+            return "You have a name";
+
+        if (email.length() == 0 || !email.contains("@"))
+            return "Invalid email";
 
         return null;
     }
