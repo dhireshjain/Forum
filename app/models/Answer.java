@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dhiresh on 25/11/14.
@@ -36,6 +37,9 @@ public class Answer extends Model {
 
     @ManyToOne(fetch = FetchType.LAZY)
     public Users user;
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
+    private Set<Comment> comment;
 
     public static Model.Finder<Long,Answer> find = new Model.Finder<Long,Answer>(Long.class,Answer.class);
 
@@ -74,4 +78,9 @@ public class Answer extends Model {
             answer.save();
     }
 
+    public static Answer getThisAnswer(Long id){
+
+        Answer answer = Answer.find.where().eq("id",id).findUnique();
+        return answer;
+    }
 }

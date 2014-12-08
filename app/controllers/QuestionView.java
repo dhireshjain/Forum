@@ -92,7 +92,7 @@ public class QuestionView extends Controller {
 
         Form<UserAnswer> currentForm = answerForm.bindFromRequest();
 
-        ArrayList<AnswerWithComments> answerWithComments = new ArrayList<>();
+        ArrayList<AnswerWithComments> answerWithComments = new ArrayList<AnswerWithComments>();
 
         if(currentForm.hasErrors()) {
 
@@ -168,5 +168,12 @@ public class QuestionView extends Controller {
         comment.delete();
 
         return redirect(routes.QuestionView.viewQuestionById(questionId));
+    }
+
+    public static Result deleteAnswerById(long id) {
+        Answer answer = Answer.getThisAnswer(id);
+        long answerId = answer.question.id;
+        answer.delete();
+        return redirect(routes.QuestionView.viewQuestionById(answerId));
     }
 }

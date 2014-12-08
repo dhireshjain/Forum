@@ -25,6 +25,9 @@
             <div class="container-wrap">
 `           <h5 style="text-align:right; color:green;">User: @i.answer.user.usn Time: @i.answer.time</h5>
             <p>@i.answer.body</p>
+            @if(session().get("usn").compareTo(i.answer.user.usn)==0) {
+            <a href="@routes.QuestionView.deleteAnswerById(i.answer.id)"><button>Delete</button></a>
+            }
             @helper.form(routes.QuestionView.addComment(i.answer.id)) {
 
                 <textarea name="body" id="ministyled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>

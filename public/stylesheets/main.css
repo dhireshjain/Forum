@@ -5,7 +5,8 @@ html {
       -ms-text-size-adjust: 100%;
 }
 body {
-  margin: 30px;
+  margin: 20px;
+  background-color: grey;
 }
 article,
 aside,

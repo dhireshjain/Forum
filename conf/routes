@@ -30,7 +30,9 @@ POST        /question/:subject        controllers.QuestionView.addQuestion(subje
 
 POST        /questions/:id/comment    controllers.QuestionView.addComment(id: Long)
                                 
-GET         /questions/answers/:cID   controllers.QuestionView.deleteCommentById(cID : Long)
+GET         /questions/comments/:cID  controllers.QuestionView.deleteCommentById(cID : Long)
+
+GET         /questions/answers/:aID   controllers.QuestionView.deleteAnswerById(aID : Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file             controllers.Assets.at(path="/public", file)

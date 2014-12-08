@@ -1,0 +1,9 @@
+@(subject:List[Subject])
+
+<div class="col-lg-3 nav-sidebar">
+    <h2 class="aside sub-header"><cufontext>&nbsp&nbsp&nbsp&nbsp&nbspSubjects</cufontext></h2>
+    @for(subjects<-subject) {
+        <button type="button" onclick="document.location.href = '@routes.QuestionView.viewAllQuestions(subjects.name)'" style="width:190px; color:black"class="btn btn-primary btn-lg">@subjects.name</button>
+    }
+
+</div>
