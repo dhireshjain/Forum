@@ -74,17 +74,12 @@ public class Users extends Model {
         return users;
     }
 
-    public Users getThisUsn(String usn1){
+   
 
-        Users user = Users.find.where().eq(usn1,this.usn).findUnique();
-        return user;
-    }
-
-    public static Users authenticate(String usn, String password) {
-        return find.where()
-                .eq("usn", usn)
-                .eq("password", password)
-                .findUnique();
+    public static String logInAuthenticator(String usn, String password) {
+        if(Users.find.where().eq("usn",usn).eq("password", password).findUnique() == null)
+           return "Invalid Usn or Password" ;
+        return null;
     }
 
     public static String signUpAuthenticator(String usn, String username, String password, String firstName, String lastName, String email){

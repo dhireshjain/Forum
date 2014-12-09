@@ -22,6 +22,7 @@ public class Application extends Controller {
         public String usn;
         public String password;
 
+        public String validate() {System.out.println("as"); return Users.logInAuthenticator(usn,password); }
 
     }
 
@@ -80,28 +81,30 @@ public class Application extends Controller {
 
 
     public static Result authenticateLogin(){
-        Form<Login> loginForm = form(Login.class).bindFromRequest();
+        Form<Login> login = form(Login.class).bindFromRequest();
 
-        if(loginForm.hasErrors())
-            return badRequest(enter.render(loginForm,signupForm));
+        if(login.hasErrors()) {
+            flash("notFound", login.globalError().message());
+            return badRequest(enter.render(loginForm, signupForm));
+        }
         else{
             session().clear();
-            session("usn",loginForm.get().usn);
+            session("usn", login.get().usn);
             return redirect(controllers.routes.Application.index());
         }
 
     }
 
     public static Result authenticateSignup() {
-        Form<SignUp> signUpForm = signupForm.bindFromRequest();
+        Form<SignUp> signUp = signupForm.bindFromRequest();
 
-        if(signUpForm.hasErrors())
+        if(signUp.hasErrors())
         {
-            flash("fail",signUpForm.globalError().message());
+            flash("fail",signUp.globalError().message());
             return badRequest(enter.render(loginForm,signupForm));
         }
         else{
-            SignUp obj = signUpForm.get();
+            SignUp obj = signUp.get();
             Users.create(obj.usn,obj.username,obj.password,obj.firstName,obj.lastName,obj.email);
             flash("success","You've signed up successfully");
             return redirect(controllers.routes.Application.index());

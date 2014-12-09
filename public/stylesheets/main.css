@@ -3256,6 +3256,7 @@ tbody.collapse.in {
   .navbar-right .dropdown-menu {
     right: 0;
     left: auto;
+    margin-right: 1px;
   }
   .navbar-right .dropdown-menu-left {
     right: auto;
@@ -3980,7 +3981,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     padding-bottom: 15px;
   }
   .navbar-nav.navbar-right:last-child {
-    margin-right: -15px;
+    margin-right: -5px;
   }
 }
 @media (min-width: 768px) {
