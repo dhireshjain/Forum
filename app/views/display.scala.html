@@ -1,32 +1,43 @@
 @(questions:List[Question], subject: String, form: Form[QuestionView.UserQuestion])
 
 @main("Questions"){
-    <div>
-    @helper.form(routes.QuestionView.addQuestion(subject)) {
-        <h4>Title</h4>
-        <textarea name="title" id="styled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
-        <br>
-        <h4>Body</h4>
-        <textarea name="body" id="styled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
-        <br>
-        <button id="btn" class="btn-primary" >Add Question</button>
+    <br>
+    <article>
+        <div class="container">
+            <div class="col-lg-10" style="margin-left: -30px;">
+                <div class="panel panel-default" style="background-color: white; padding:1em">
+                @for(i<-questions) {
+                        <h2 class="panel-heading" style= " background-color:indianred;">@i.id
+                        <a style="color:black" href="@routes.QuestionView.viewQuestionById(i.id)">@i.title</a>
+                        <h5 class="bg-info" style="text-align: right">User: @i.user.usn</h5>
+                        </h2>
+                        <article class="panel-body" style="font-size: 20px;">&nbsp&nbsp @i.body</article>
+                }
 
-    }
-    @if(form.hasGlobalErrors) {
-        <p class="error">
-        @form.globalError.message
-        </p>
-    }
-    </div>
+                </div>
+            </div>
+        </div>
+    </article>
 
+    <div class="well">
+        <div class="form-group">
+            @helper.form(routes.QuestionView.addQuestion(subject)) {
 
-    <div class="pagination" style="margin:10px; background-color: grey; padding:1em; width: 100%; ">
-        <ul>
-        @for(i<-questions) {
-         <li><h1><a href="@routes.QuestionView.viewQuestionById(i.id)">@i.title</a></h1>
-            <h2>@i.body</h2></li>
-        }
-        </ul>
+                <h3 class="sub-header">Title</h3>
+                <textarea class="form-control" name="title" id="styled" style="background: lightgoldenrodyellow; font-size: 20px;" placeholder="Type..."></textarea>
+                <br>
+                <h4 class="sub-header">Body</h4>
+                <textarea class="form-control" name="body" id="styled"  style="background: lightgoldenrodyellow; font-size: 20px" placeholder="Type..."></textarea>
+                <br>
+                <button id="btn" class="btn-primary" >Add Question</button>
+
+            }
+            @if(flash().containsKey("error")) {
+                <p style="color: red ;">
+                @flash.get("error")
+                </p>
+            }
+        </div>
     </div>
 
 }

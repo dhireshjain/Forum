@@ -1,19 +1,21 @@
 @(question: Question, answerWithComments: List[QuestionView.AnswerWithComments], form: Form[QuestionView.UserAnswer])
 
 @main(question.title){
-    <div style="background-color: lightgrey">
-    <h2>@question.title</h2>
-    <h4>@question.user.usn</h4>
-    <h3>@question.body</h3>
+    <br>
+    <div class="panel panel-default" style="background-color: white; padding: 1em;">
+        <h2 class="panel-heading" style="background-color: indianred; text-align: center">@question.title
+        <h4 class="bg-info" style="text-align: right">@question.user.usn</h4>
+        </h2>
+            <h3>@question.body</h3>
 
         @helper.form(routes.QuestionView.addAnswer(question.id)) {
 
-            <textarea name="body" id="styled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
+            <textarea class="form-control" name="body" id="styled" placeholder="Type..."></textarea>
             <br>
-            <button class="btn-lg btn-primary">Submit</button>
-            @if(form.hasGlobalErrors) {
-                <p class="error">
-                @form.globalError.message
+            <button class="btn btn-primary">Submit</button>
+            @if(flash.containsKey("error")) {
+                <p style="color: red">
+                    @flash.get("error")
                 </p>
             }
         }
@@ -21,29 +23,40 @@
 
 
     @for(i <- answerWithComments) {
-        <div class="panel panel-default" style="background-color:darkgrey ">
-            <div class="container-wrap">
-`           <h5 style="text-align:right; color:green;">User: @i.answer.user.usn Time: @i.answer.time</h5>
-            <p>@i.answer.body</p>
-            @if(session().get("usn").compareTo(i.answer.user.usn)==0) {
-            <a href="@routes.QuestionView.deleteAnswerById(i.answer.id)"><button>Delete</button></a>
+        <div class="panel panel-default" style="background-color:white; padding:1em; ">
+            <h5 class="bg-info" style="text-align:right; color:green;">User: @i.answer.user.usn Time: @i.answer.time</h5>
+            <div class="panel-body" style= " background-color:indianred; font-size: 15px;">
+                <p>@i.answer.body</p>
+            </div><br>
+                @if(session().get("usn").compareTo(i.answer.user.usn)==0) {
+                <a href="@routes.QuestionView.deleteAnswerById(i.answer.id)"><button class="btn btn-warning">Delete</button></a>
             }
+            <br><br>
+            <h3 class="bg-primary" style="text-align: center">Comments</h3>
+            <ul class="list-group">
+            @for(j<-i.comments){
+            <li class="list-group-item" style="text-align: right"><strong>USN:</strong> @j.user.usn <strong>Time:</strong> @j.time</li>
+            <li class="list-group-item">@j.body</li>
+                <br>
+            @if(session().get("usn").compareTo(j.user.usn)==0) {
+            <a href="@routes.QuestionView.deleteCommentById(j.id)"><button class="btn">Delete</button></a>
+                <br>
+                }
+                <hr style="border: solid 1px;">
+             }
+             </ul>
+            <br>
             @helper.form(routes.QuestionView.addComment(i.answer.id)) {
 
-                <textarea name="body" id="ministyled"  onblur="setbg('white')" style="background: lightblue;" placeholder="Type..."></textarea>
-                <br>
-                <button id="btn" class="btn-primary" onclick="showStuff(); " >Add Comment</button>
+                <div class="well">
+                    <h4>Leave a Comment:</h4>
+                        <div class="form-group">
+                            <textarea name = "body" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+
             }
-            <ul>
-            @for(j<-i.comments){
-                <li style="text-align: right">@j.user.usn @j.time</li>
-                <li>@j.body</li>
-                @if(session().get("usn").compareTo(j.user.usn)==0) {
-                    <a href="@routes.QuestionView.deleteCommentById(j.id)"><button>Delete</button></a>
-                }
-            }
-            </ul>
-            </div>
         </div>
     }
 

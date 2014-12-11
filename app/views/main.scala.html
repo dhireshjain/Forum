@@ -11,50 +11,71 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="assets/stylesheets/bootstrap.min.js"></script>
     </head>
-    <body style="background-color:#21829E">
-        <nav class="navbar navbar-default" role="navigation" id="top" style="border:4px solid #ceeeee;">
+    <body style="background-color: #f5f5f5">
 
-            <div class="navbar-brand" style="font-size:40px; color:black; font-family: century gothic">CSE</div>
+        <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+            <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">CSE</a>
+                </div>
 
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#drop">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="@routes.Application.index()">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        @if(!session.contains("usn")){
+                            <li><a href="@routes.Application.login()">Log In/Sign Up</a></li>}
+                        @if(session.contains("usn")){
+                            <li><a href="@routes.Application.logout()">Logout</a></li>
+                        }
+
+                        <li>
+                            <a href="contact.html">Contact</a>
+                        </li>
+                        @if(session.contains("usn")) {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Users.find.ref(session.get("usn")).username <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/user/@session.get("usn")">Profile</a></li>
+                                    <li><a href="#">Credits</a></li>
+                                    <li><a href="#">Settings</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+                    <!-- /.navbar-collapse -->
             </div>
-
-            <div class="collapse navbar-collapse" id="drop">
-
-                <ul class="nav navbar-nav">
-                    <li><a href="@routes.Application.index()">Home</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-center">
-                    @if(!session.contains("usn")){
-                    <li><a href="@routes.Application.login()">Log In/Sign Up</a></li>}
-                    @if(session.contains("usn")){
-                    <li><a href="@routes.Application.logout()">Logout</a></li>
-                    }
-                </ul>
-                @if(session.contains("usn")){
-                <ul class="nav navbar-nav navbar-right">
-        
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Users.find.ref(session.get("usn")).username<span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Credits</a></li>
-            <li><a href="#">Settings</a></li>
-          </ul>
-        </li>
-      </ul>
-
-                }
-            </div><!-- /.navbar-collapse -->
+                <!-- /.container -->
         </nav>
-        <div class="container-fluid" style="background-color: #EEEEEE;border:4px solid #ceeeee;">
-        @content
+        <div id="wrapper">
+        <div id="page-content-wrapper" style="background-color:#f5f5f5">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                      @content
+                        </div>
+                    </div>
+                </div>
         </div>
+        </div>
+        <script>
+        $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+        });
+        </script>
     </body>
 </html>

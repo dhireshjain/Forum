@@ -15,6 +15,8 @@ POST        /login                    controllers.Application.authenticateLogin(
 
 POST        /signup                   controllers.Application.authenticateSignup()
 
+GET         /user/:name               controllers.Application.profile(name)
+
 #                                                                                                                                                                                                                                                                                 POST        /signup                   controllers.Application.authenticateSignup()
 
 GET         /logout                   controllers.Application.logout()

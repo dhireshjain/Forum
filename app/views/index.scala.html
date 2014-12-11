@@ -2,15 +2,16 @@
 
 @main("Welcome to Play") {
 
-    @sidebar(subject)
+    @sidebar(subject){
 
+    }
+   <div class="pagination">
     @if(flash.containsKey("success")) {
-        <p class="success">
+        <p class="success" style="color:green; text-align: center">
         @flash.get("success")
         </p>
     }
     <br>
-    <div class="col-lg-8">
    @for(i<-user){
        <h3 style="color:blue">@i.usn @i.username @i.password @i.firstName @i.lastName @i.email</h3>
        <p>----</p>
@@ -28,5 +29,5 @@
             @i.title @i.body @i.time</h3>
         <p>----</p>
     }
-    </div>
+   </div>
 }

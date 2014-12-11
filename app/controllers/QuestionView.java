@@ -95,19 +95,8 @@ public class QuestionView extends Controller {
         ArrayList<AnswerWithComments> answerWithComments = new ArrayList<AnswerWithComments>();
 
         if(currentForm.hasErrors()) {
-
-            Question question = Question.find.ref(id);
-
-            /*
-            Gets all answers for this question
-             */
-            List<Answer> answers = Answer.getAnswers(id);
-            for (Answer answer : answers) {
-                List<Comment> comments = Comment.getCommentsByAnswerId(answer.id);
-                answerWithComments.add(new AnswerWithComments(answer, comments));
-            }
-
-            return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm));
+            flash("error","Answer cannot be empty");
+            return redirect(routes.QuestionView.addAnswer(id));
         }
         Answer.create(currentForm.get().body, id, session("usn"), new java.sql.Date(new java.util.Date().getTime()));
 
@@ -146,8 +135,9 @@ public class QuestionView extends Controller {
 
         Form<UserQuestion> currentForm = questionForm.bindFromRequest();
 
-        if(questionForm.hasErrors()) {
+        if(currentForm.hasErrors()) {
             List<Question> list = Question.getSubjectQuestions(subject);
+            flash("error","Field(s) cannot be empty");
             return badRequest(display.render(list,subject,questionForm));
         }
         Question.create(currentForm.get().title,currentForm.get().body,new java.sql.Date(new java.util.Date().getTime()),session("usn"),subject);

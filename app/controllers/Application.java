@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Application extends Controller {
 
+    static List<Subject> subjects = Subject.getAllSubject();
+
     public static class Login {
 
         public String usn;
@@ -68,7 +70,6 @@ public class Application extends Controller {
 
         List<Users> users = Users.getAllUsers();
         List<Question> questions = Question.getAllQuestion();
-        List<Subject> subjects = Subject.getAllSubject();
         List<Question> usnQuestions = Question.getUsnQuestions("1ms12cs028");
 
         return ok(index.render(users,questions,subjects,usnQuestions));
@@ -117,6 +118,12 @@ public class Application extends Controller {
         return redirect(
                 controllers.routes.Application.index()
         );
+    }
+
+    public static Result profile(String usn){
+
+
+        return ok(views.html.profile.render(subjects));
     }
 
 }

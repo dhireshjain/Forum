@@ -1,60 +1,37 @@
 @(loginForm: Form[Application.Login],signUpform: Form[Application.SignUp])
 
 @main("Enter"){
-
-    <div class="container">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-4" >
+    <div>
+        <br>
+        <div class="col-lg-4" style="border: solid 2px; min-height: 500px;">
     @helper.form(action = routes.Application.authenticateLogin){
             <h1>Log in</h1>
             @if(flash.containsKey("notFound")){
-            <p>@flash.get("notFound")</p>
+            <p style="color: red">@flash.get("notFound")</p>
             }
-        <p>
-            <input type="name" name="usn" placeholder="USN">
-        </p>
-        <p>
-            <input type="password" name="password" placeholder="Password">
-        </p>
-
-        <p>
-            <button type="submit">Login</button>
-        </p>
+            <input class="form-control" type="name" name="usn" placeholder="USN"><br>
+            <input class="form-control" type="password" name="password" placeholder="Password"><br>
+            <button class="btn btn-success mar" type="submit">Login</button>
 
         }
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-6" style="border: solid 2px; min-height: 500px;">
         @helper.form(action = routes.Application.authenticateSignup){
             <h1>Sign Up</h1>
             @if(signUpform.hasErrors()){
                 <p>@signUpform.globalError()</p>
             }
             @if(flash.containsKey("fail")){
-                <p>@flash.get("fail")</p>
+                <p style="color: red">@flash.get("fail")</p>
             }
 
-
-            <p>
-                <input type="name" name="usn" placeholder="USN">
-            </p>
-            <p>
-                <input type="password" name="password" placeholder="Password">
-            </p><p>
-                <input type="name" name="username" placeholder="Name">
-            </p>
-            <p>
-                <input type="name" name="firstName" placeholder="firstName">
-            </p>
-            <p>
-                <input type="name" name="lastName" placeholder="lastName">
-            </p>
-            <p>
-                <input type="email" name="email" placeholder="email">
-            </p>
-
-            <p>
-                <button type="submit">SignUp</button>
-            </p>
+                <input class="form-control" type="name" name="usn" placeholder="USN"><br>
+                <input class="form-control" type="password" name="password" placeholder="Password"><br>
+                <input class="form-control" type="name" name="username" placeholder="Name"><br>
+                <input class="form-control" type="name" name="firstName" placeholder="firstName"><br>
+                <input class="form-control" type="name" name="lastName" placeholder="lastName"><br>
+                <input class="form-control" type="email" name="email" placeholder="email"><br>
+                <button class="btn btn-danger" type="submit">SignUp</button>
 
         }
     </div>

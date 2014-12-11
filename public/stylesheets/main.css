@@ -6,7 +6,6 @@ html {
 }
 body {
   margin: 20px;
-  background-color: grey;
 }
 article,
 aside,
@@ -3895,7 +3894,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   float: left;
   height: 50px;
   padding: 15px 15px;
-  font-size: 18px;
+  font-size: 25px;
   line-height: 20px;
 }
 .navbar-brand:hover,
@@ -4106,7 +4105,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #f8f8f8;
+  background-color: #0F0A0A;
   border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
