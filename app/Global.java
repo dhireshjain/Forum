@@ -10,8 +10,8 @@ import models.*;
 public class Global extends GlobalSettings {
 
     public void onStart(Application app) {
-        System.out.println("STARTED1");
-        InitialData.insert(app);
+
+        //InitialData.insert(app);
     }
 
     static class InitialData {

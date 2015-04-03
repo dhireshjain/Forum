@@ -26,13 +26,13 @@ public class Question extends Model {
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(nullable = false,length=1000)
+    @Column(nullable = false,length=200, unique=true)
     public String title;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(unique = true,nullable = false,length=1000)
+    @Column(nullable = false, unique=true, length=700)
     public String body;
 
     public Date time;

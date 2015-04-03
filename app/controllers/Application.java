@@ -24,7 +24,7 @@ public class Application extends Controller {
         public String usn;
         public String password;
 
-        public String validate() {System.out.println("as"); return Users.logInAuthenticator(usn,password); }
+        public String validate() {return Users.logInAuthenticator(usn,password); }
 
     }
 
@@ -48,26 +48,6 @@ public class Application extends Controller {
     public static Form<SignUp> signupForm = form(SignUp.class);
 
     public static Result index() {
-        try {
-            Subject.create("Operating Systems",0L);
-            Subject.create("Java",0L);
-            Subject.create("DBMS",0L);
-            Subject.create("System Software",0L);
-            Subject.create("Computer Networks",0L);
-            Subject.create("Software Engineering",0L);
-            Question.create("Cassandra","Struggling with cassandra",new java.sql.Date(new java.util.Date().getTime()),"1ms12cs028", "DBMS");
-        }
-        catch(Exception pe) {
-            try {
-                System.out.println(pe.toString()+"2");
-                PrintWriter out = new PrintWriter(new FileWriter("a.txt", true));
-                out.append("\n" + pe.toString());
-                out.close();
-            } catch (IOException e) {
-                System.out.println(e.toString() + "S");
-            }
-        }
-
         List<Users> users = Users.getAllUsers();
         List<Question> questions = Question.getAllQuestion();
         List<Question> usnQuestions = Question.getUsnQuestions("1ms12cs028");

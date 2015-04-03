@@ -25,7 +25,7 @@ public class Answer extends Model {
     @NotNull
     @Formats.NonEmpty
     @Constraints.Required
-    @Column(nullable = false,length=1000)
+    @Column(nullable = false,length=700, unique=true)
     public String body;
 
     @ManyToOne(fetch= FetchType.LAZY)

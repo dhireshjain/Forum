@@ -4,19 +4,20 @@
 # --- !Ups
 
 create table answer (
-  id                        bigint not null,
-  body                      varchar(1000) not null,
+  id                        bigint auto_increment not null,
+  body                      varchar(700) not null,
   question_id               bigint,
   upvotes                   bigint,
   downvotes                 bigint,
   time                      date,
   user_usn                  varchar(255),
+  constraint uq_answer_body unique (body),
   constraint pk_answer primary key (id))
 ;
 
 create table comment (
   id                        bigint auto_increment not null,
-  body                      varchar(1000) not null,
+  body                      varchar(700) not null,
   time                      date,
   answer_id                 bigint,
   user_usn                  varchar(255),
@@ -26,11 +27,12 @@ create table comment (
 
 create table question (
   id                        bigint auto_increment not null,
-  title                     varchar(1000) not null,
-  body                      varchar(1000) not null,
+  title                     varchar(200) not null,
+  body                      varchar(700) not null,
   time                      date,
   user_usn                  varchar(255),
   subject_name              varchar(255),
+  constraint uq_question_title unique (title),
   constraint uq_question_body unique (body),
   constraint pk_question primary key (id))
 ;
@@ -53,12 +55,6 @@ create table users (
   constraint pk_users primary key (usn))
 ;
 
-create sequence answer_seq;
-
-create sequence subject_seq;
-
-create sequence users_seq;
-
 alter table answer add constraint fk_answer_question_1 foreign key (question_id) references question (id) on delete restrict on update restrict;
 create index ix_answer_question_1 on answer (question_id);
 alter table answer add constraint fk_answer_user_2 foreign key (user_usn) references users (usn) on delete restrict on update restrict;
@@ -76,23 +72,17 @@ create index ix_question_subject_6 on question (subject_name);
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists answer;
+drop table answer;
 
-drop table if exists comment;
+drop table comment;
 
-drop table if exists question;
+drop table question;
 
-drop table if exists subject;
+drop table subject;
 
-drop table if exists users;
+drop table users;
 
-SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists answer_seq;
-
-drop sequence if exists subject_seq;
-
-drop sequence if exists users_seq;
+SET FOREIGN_KEY_CHECKS=1;
 

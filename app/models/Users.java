@@ -6,9 +6,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 
 import javax.persistence.*;
-import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,33 +20,37 @@ public class Users extends Model {
     @Id
     @Formats.NonEmpty
     @Constraints.Required
+    @Column(nullable = false)
     public String usn;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(unique = true,nullable = false)
+    @Column(nullable=false, unique=true)
     public String username;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
+    @Column(nullable = false)
     public String password;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
+    @Column(nullable = false)
     public String firstName;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
+    @Column(nullable = false)
     public String lastName;
 
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false, unique=true)
     public String email;
 
     public Users(String usn, String username, String password,String firstName, String lastName, String email) {
@@ -63,15 +65,23 @@ public class Users extends Model {
 
     public static Model.Finder<String,Users> find = new Model.Finder<String,Users>(String.class, Users.class);
 
-    public static void create(String usn, String username, String password, String firstName, String lastName,String email) {
-           Users users = new Users(usn, username, password, firstName, lastName, email);
-           users.save();
+    public static boolean create(String usn, String username, String password, String firstName, String lastName,String email) {
+           try {
+               Users users = new Users(usn, username, password, firstName, lastName, email);
+               users.save();
+               return true;
+           }
+           catch(Exception e){
+               return false;
+           }
     }
 
     public static List<Users> getAllUsers() {
-        List<Users> users = Ebean.find(Users.class)
+        return Ebean.find(Users.class)
                 .findList();
-        return users;
+    }
+    public static Users getUserByUsn(String usn){
+        return Users.find.byId(usn);
     }
 
    
@@ -105,7 +115,7 @@ public class Users extends Model {
         return null;
     }
 
-    public static void deleter(){
+    private static void deleter(){
 
         List<Users> users = Ebean.find(Users.class)
                 .findList();
@@ -116,5 +126,15 @@ public class Users extends Model {
             it.next().delete();
         }
 
+    }
+    private static boolean deleteByUsn(String usn){
+        try {
+            Users user = Users.find.byId(usn);
+            user.delete();
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 }
