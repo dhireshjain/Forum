@@ -56,7 +56,10 @@ public class Application extends Controller {
     }
 
     public static Result login(){
+        if(!session().containsKey("usn"))
         return ok(enter.render(loginForm,signupForm));
+        else
+        return redirect(controllers.routes.Application.index());
     }
 
 
