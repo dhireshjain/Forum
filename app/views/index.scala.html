@@ -1,33 +1,5 @@
-@(user:List[Users],questions:List[Question],subject:List[Subject],q1:List[Question])
+@(subject:List[Subject])
 
-@main("Welcome to Play") {
+@main("Welcome to Play", subject) {
 
-    @sidebar(subject){
-
-    }
-   <div class="pagination">
-    @if(flash.containsKey("success")) {
-        <p class="success" style="color:green; text-align: center">
-        @flash.get("success")
-        </p>
-    }
-    <br>
-   @for(i<-user){
-       <h3 style="color:blue">@i.usn @i.username @i.password @i.firstName @i.lastName @i.email</h3>
-       <p>----</p>
-   }
-   @for(i<-questions){
-        <h3 style="color:red">@i.id @i.user.usn  @i.subject.name @i.user.username @i.user.password
-            @i.title @i.body @i.time</h3>
-        <p>----</p>
-   }
-   @for(i<-subject){
-       <h3 style="color:yellow">@i.name @i.number</h3>
-   }
-    @for(i<-q1){
-        <h3 style="color:green">@i.id @i.user.usn  @i.subject.name @i.user.username @i.user.password
-            @i.title @i.body @i.time</h3>
-        <p>----</p>
-    }
-   </div>
 }

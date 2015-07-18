@@ -22,7 +22,7 @@ public class Comment extends Model {
     @NotNull
     @Constraints.Required
     @Formats.NonEmpty
-    @Column(nullable = false, unique=true, length = 700)
+    @Column(nullable = false,length = 1000)
     public String body;
 
     public Date time;

@@ -1,23 +1,25 @@
-@(question: Question, answerWithComments: List[QuestionView.AnswerWithComments], form: Form[QuestionView.UserAnswer])
+@(question: Question, answerWithComments: List[QuestionView.AnswerWithComments], form: Form[QuestionView.UserAnswer], subjects:List[Subject])
 
-@main(question.title){
+@main(question.title, subjects){
     <br>
     <div class="panel panel-default" style="background-color: white; padding: 1em;">
-        <h2 class="panel-heading" style="background-color: indianred; text-align: center">@question.title
+        <h2 class="panel-heading" style="background-color: rgb(153, 148, 148); text-align: center">@question.title
         <h4 class="bg-info" style="text-align: right">@question.user.usn</h4>
         </h2>
             <h3>@question.body</h3>
 
         @helper.form(routes.QuestionView.addAnswer(question.id)) {
-
-            <textarea class="form-control" name="body" id="styled" placeholder="Type..."></textarea>
-            <br>
-            <button class="btn btn-primary">Submit</button>
-            @if(flash.containsKey("error")) {
-                <p style="color: red">
-                    @flash.get("error")
-                </p>
-            }
+            <div class="form-group well">
+                <h4>Leave an Answer:</h4>
+                <textarea class="expanding" name="body" placeholder="Type..." rows="3"></textarea>
+                <br>
+                <button class="btn-primary">Submit Answer</button>
+                @if(flash.containsKey("error")) {
+                    <p style="color: red">
+                        @flash.get("error")
+                    </p>
+                }
+            </div>
         }
     </div>
 
@@ -25,21 +27,21 @@
     @for(i <- answerWithComments) {
         <div class="panel panel-default" style="background-color:white; padding:1em; ">
             <h5 class="bg-info" style="text-align:right; color:green;">User: @i.answer.user.usn Time: @i.answer.time</h5>
-            <div class="panel-body" style= " background-color:indianred; font-size: 15px;">
+            <div class="panel-body" style= " background-color:rgb(242, 239, 239); font-size: 15px;">
                 <p>@i.answer.body</p>
             </div><br>
                 @if(session().get("usn").compareTo(i.answer.user.usn)==0) {
-                <a href="@routes.QuestionView.deleteAnswerById(i.answer.id)"><button class="btn btn-warning">Delete</button></a>
+                <a href="@routes.QuestionView.deleteAnswerById(i.answer.id)"><button class="btn-danger">Delete Answer</button></a>
             }
             <br><br>
-            <h3 class="bg-primary" style="text-align: center">Comments</h3>
+            <h4 class="bg-primary" style="text-align: center">Comments</h4>
             <ul class="list-group">
             @for(j<-i.comments){
             <li class="list-group-item" style="text-align: right"><strong>USN:</strong> @j.user.usn <strong>Time:</strong> @j.time</li>
             <li class="list-group-item">@j.body</li>
                 <br>
             @if(session().get("usn").compareTo(j.user.usn)==0) {
-            <a href="@routes.QuestionView.deleteCommentById(j.id)"><button class="btn">Delete</button></a>
+            <a href="@routes.QuestionView.deleteCommentById(j.id)"><button class="btn-danger">Delete Comment</button></a>
                 <br>
                 }
                 <hr style="border: solid 1px;">
@@ -48,13 +50,10 @@
             <br>
             @helper.form(routes.QuestionView.addComment(i.answer.id)) {
 
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-                        <div class="form-group">
-                            <textarea name = "body" class="form-control" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+                <h4>Leave a Comment:</h4>
+                <textarea name = "body" class="expanding" rows="3"></textarea>
+                <br>
+                <button type="submit" class="btn-primary">Submit Comment</button>
 
             }
         </div>

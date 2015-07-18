@@ -1,10 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Ebean;
-import models.Answer;
-import models.Comment;
-import models.Question;
-import models.Users;
+import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,6 +15,8 @@ import java.util.List;
  * Created by dhiresh on 2/12/14.
  */
 public class QuestionView extends Controller {
+
+    static List<Subject> subjects = Application.subjects;
 
     public static class UserQuestion {
         public String title;
@@ -84,7 +83,7 @@ public class QuestionView extends Controller {
             answerWithComments.add(new AnswerWithComments(answer, comments));
         }
 
-        return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm));
+        return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm,subjects));
     }
 
     @Security.Authenticated(Secured.class)
@@ -123,7 +122,7 @@ public class QuestionView extends Controller {
                 answerWithComments.add(new AnswerWithComments(answer, comments));
             }
 
-            return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm));
+            return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm,subjects));
         }
         Comment.create(currentForm.get().body,new java.sql.Date(new java.util.Date().getTime()), session("usn"),id);
 
@@ -138,7 +137,7 @@ public class QuestionView extends Controller {
         if(currentForm.hasErrors()) {
             List<Question> list = Question.getSubjectQuestions(subject);
             flash("error","Field(s) cannot be empty");
-            return badRequest(display.render(list,subject,questionForm));
+            return badRequest(display.render(list,subject,questionForm,subjects));
         }
         Question.create(currentForm.get().title,currentForm.get().body,new java.sql.Date(new java.util.Date().getTime()),session("usn"),subject);
 
@@ -149,7 +148,7 @@ public class QuestionView extends Controller {
     public static Result viewAllQuestions(String name){
 
         List<Question> list = Question.getSubjectQuestions(name);
-        return ok(display.render(list,name,questionForm));
+        return ok(display.render(list,name,questionForm,subjects));
     }
 
     public static Result deleteCommentById(long id) {

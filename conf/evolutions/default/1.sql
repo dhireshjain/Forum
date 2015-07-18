@@ -5,41 +5,39 @@
 
 create table answer (
   id                        bigint auto_increment not null,
-  body                      varchar(700) not null,
+  body                      varchar(2000) not null,
   question_id               bigint,
   upvotes                   bigint,
   downvotes                 bigint,
   time                      date,
   user_usn                  varchar(255),
-  constraint uq_answer_body unique (body),
   constraint pk_answer primary key (id))
 ;
 
 create table comment (
   id                        bigint auto_increment not null,
-  body                      varchar(700) not null,
+  body                      varchar(1000) not null,
   time                      date,
   answer_id                 bigint,
   user_usn                  varchar(255),
-  constraint uq_comment_body unique (body),
   constraint pk_comment primary key (id))
 ;
 
 create table question (
   id                        bigint auto_increment not null,
   title                     varchar(200) not null,
-  body                      varchar(700) not null,
+  body                      varchar(1500) not null,
   time                      date,
   user_usn                  varchar(255),
   subject_name              varchar(255),
   constraint uq_question_title unique (title),
-  constraint uq_question_body unique (body),
   constraint pk_question primary key (id))
 ;
 
 create table subject (
   name                      varchar(255) not null,
-  number                    bigint,
+  code                      varchar(255),
+  sem                       integer,
   constraint pk_subject primary key (name))
 ;
 

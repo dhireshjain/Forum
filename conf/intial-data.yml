@@ -17,3 +17,25 @@ users:
         lastName:   Bort
         usn:        1ms12cs020
         username:   dada
+
+subject:
+
+    - !!models.Subject
+        name:       Math1
+        code:       CS101
+        sem:        1
+
+    - !!models.Subject
+        name:       Math2
+        code:       CS201
+        sem:        2
+
+    - !!models.Subject
+        name:       Math3
+        code:       CS301
+        sem:        3
+
+    - !!models.Subject
+        name:       Math4
+        code:       CS401
+        sem:        4

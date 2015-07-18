@@ -1,6 +1,6 @@
-@(loginForm: Form[Application.Login],signUpform: Form[Application.SignUp])
+@(loginForm: Form[Application.Login],signUpform: Form[Application.SignUp], subjects:List[Subject])
 
-@main("Enter"){
+@main("Enter", subjects){
     <div>
         <br>
         <ul id="myTab" class="nav nav-tabs">
@@ -16,8 +16,8 @@
             <div class="tab-pane fade in active" id="login">
             @helper.form(action = routes.Application.authenticateLogin){
             <h1>Log in</h1>
-            @if(flash.containsKey("notFound")){
-            <p style="color: red">@flash.get("notFound")</p>
+            @if(loginForm.hasErrors){
+            <p style="color:red">@loginForm.globalError.message</p>
             }
             <input class="form-control" type="name" name="usn" placeholder="USN"><br>
             <input class="form-control" type="password" name="password" placeholder="Password"><br>
@@ -29,13 +29,9 @@
             <div class="tab-pane fade" id="signup">
             @helper.form(action = routes.Application.authenticateSignup){
             <h1>Sign Up</h1>
-            @if(signUpform.hasErrors()){
-                <p>@signUpform.globalError()</p>
+            @if(signUpform.hasErrors){
+                <p style="color:red">@signUpform.globalError.message</p>
             }
-            @if(flash.containsKey("fail")){
-                <p style="color: red">@flash.get("fail")</p>
-            }
-
                 <input class="form-control" type="name" name="usn" placeholder="USN"><br>
                 <input class="form-control" type="password" name="password" placeholder="Password"><br>
                 <input class="form-control" type="name" name="username" placeholder="Name"><br>

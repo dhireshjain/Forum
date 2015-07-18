@@ -1,33 +1,20 @@
-@(questions:List[Question], subject: String, form: Form[QuestionView.UserQuestion])
+@(questions:List[Question], subject: String, form: Form[QuestionView.UserQuestion], subjects:List[Subject])
 
-@main("Questions"){
+@main("Questions", subjects){
     <br>
-    <article>
-        <div class="container">
-            <div class="col-lg-10" style="margin-left: -30px;">
-                <div class="panel panel-default" style="background-color: white; padding:1em">
-                @for(i<-questions) {
-                        <h2 class="panel-heading" style= " background-color:indianred;">@i.id
-                        <a style="color:black" href="@routes.QuestionView.viewQuestionById(i.id)">@i.title</a>
-                        <h5 class="bg-info" style="text-align: right">User: @i.user.usn</h5>
-                        </h2>
-                        <article class="panel-body" style="font-size: 20px;">&nbsp&nbsp @i.body</article>
-                }
+    <div class="page-header">
+        <h2 class="text-center">@subject</h2>
+    </div>
 
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <div class="well">
         <div class="form-group">
             @helper.form(routes.QuestionView.addQuestion(subject)) {
 
-                <h3 class="sub-header">Title</h3>
-                <textarea class="form-control" name="title" id="styled" style="background: lightgoldenrodyellow; font-size: 20px;" placeholder="Type..."></textarea>
+                <h4>Title</h4>
+                <textarea class="form-control" name="title" style="font-size: 20px; overflow :hidden;
+                line-height: 20px; height: 2.4em; resize: none" placeholder="Type..."></textarea>
                 <br>
-                <h4 class="sub-header">Body</h4>
-                <textarea class="form-control" name="body" id="styled"  style="background: lightgoldenrodyellow; font-size: 20px" placeholder="Type..."></textarea>
+                <h4>Body</h4>
+                <textarea class="expanding" name="body" id="styled2"  style="font-size: 20px;" placeholder="Type..."></textarea>
                 <br>
                 <button id="btn" class="btn-primary" >Add Question</button>
 
@@ -38,6 +25,21 @@
                 </p>
             }
         </div>
-    </div>
+
+
+        <div class="container-fluid">
+            <div class="col-lg-10" style="margin-left: -30px;">
+                <div class="padding:1em">
+                @for(i<-questions) {
+                        <h2>@i.id
+                        <a style="color:black" href="@routes.QuestionView.viewQuestionById(i.id)">@i.title</a>
+                        <h5 class="bg-info" style="text-align: right">User: @i.user.usn</h5>
+                        </h2>
+                        <article style="background-color: #ffffff; font-size: 20px;">&nbsp&nbsp @i.body</article>
+                }
+
+                </div>
+            </div>
+        </div>
 
 }

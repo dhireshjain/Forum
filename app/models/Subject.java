@@ -21,22 +21,25 @@ public class Subject extends Model {
 
     @Formats.NonEmpty
     @Constraints.Required
-    public long number;
+    public String code;
+
+    public int sem;
 
     public static Model.Finder<String,Subject> find = new Model.Finder<String,Subject>(String.class,Subject.class);
 
-    public Subject(String name, Long no){
+    public Subject(String name, String code, int sem){
         this.name = name;
-        this.number = no;
+        this.code = code;
+        this.sem = sem;
     }
 
-    public static void create(String name , Long number){
-        Subject subject = new Subject(name,number);
+    public static void create(String name , String code, int sem){
+        Subject subject = new Subject(name, code, sem);
         subject.save();
     }
 
-    public static List<Subject> getAllSubject(){
-        List<Subject> list = Ebean.find(Subject.class).findList();
+    public static List<Subject> getSubjectsOfSem(int sem){
+        List<Subject> list = Ebean.find(Subject.class).where().eq("sem",sem).findList();
         return list;
     }
 

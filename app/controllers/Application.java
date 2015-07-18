@@ -1,23 +1,27 @@
 package controllers;
 
-import models.Question;
 import models.Subject;
 import models.Users;
 import play.data.Form;
-import play.mvc.*;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.enter;
+import views.html.index;
 
-import static play.data.Form.*;
-
-import views.html.*;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
+
+import static play.data.Form.form;
 
 public class Application extends Controller {
 
-    static List<Subject> subjects = Subject.getAllSubject();
+    static int sem = 1;
+    static List<Subject> subjects = Subject.getSubjectsOfSem(sem);
+
+    public static Result index(int semester) {
+        sem = semester;
+        subjects = Subject.getSubjectsOfSem(sem);
+        return ok(index.render(subjects));
+    }
 
     public static class Login {
 
@@ -47,34 +51,23 @@ public class Application extends Controller {
 
     public static Form<SignUp> signupForm = form(SignUp.class);
 
-    public static Result index() {
-        List<Users> users = Users.getAllUsers();
-        List<Question> questions = Question.getAllQuestion();
-        List<Question> usnQuestions = Question.getUsnQuestions("1ms12cs028");
-
-        return ok(index.render(users,questions,subjects,usnQuestions));
-    }
-
     public static Result login(){
         if(!session().containsKey("usn"))
-        return ok(enter.render(loginForm,signupForm));
+            return ok(enter.render(loginForm,signupForm,subjects));
         else
-        return redirect(controllers.routes.Application.index());
+            return redirect(controllers.routes.Application.index(sem));
     }
-
-
 
     public static Result authenticateLogin(){
         Form<Login> login = form(Login.class).bindFromRequest();
 
         if(login.hasErrors()) {
-            flash("notFound", login.globalError().message());
-            return badRequest(enter.render(loginForm, signupForm));
+            return badRequest(enter.render(login, signupForm,subjects));
         }
         else{
             session().clear();
             session("usn", login.get().usn);
-            return redirect(controllers.routes.Application.index());
+            return redirect(controllers.routes.Application.index(sem));
         }
 
     }
@@ -82,16 +75,14 @@ public class Application extends Controller {
     public static Result authenticateSignup() {
         Form<SignUp> signUp = signupForm.bindFromRequest();
 
-        if(signUp.hasErrors())
-        {
-            flash("fail",signUp.globalError().message());
-            return badRequest(enter.render(loginForm,signupForm));
+        if(signUp.hasErrors()) {
+            return badRequest(enter.render(loginForm, signUp,subjects));
         }
         else{
             SignUp obj = signUp.get();
             Users.create(obj.usn,obj.username,obj.password,obj.firstName,obj.lastName,obj.email);
             flash("success","You've signed up successfully");
-            return redirect(controllers.routes.Application.index());
+            return redirect(controllers.routes.Application.index(sem));
         }
     }
 
@@ -99,14 +90,12 @@ public class Application extends Controller {
         session().clear();
         flash("success", "You've been logged out");
         return redirect(
-                controllers.routes.Application.index()
+                controllers.routes.Application.index(sem)
         );
     }
 
     public static Result profile(String usn){
-
-
-        return ok(views.html.profile.render(subjects));
+        return ok(views.html.profile.render());
     }
 
 }
