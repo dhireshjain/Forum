@@ -6,6 +6,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
+import scala.App;
 import views.html.display;
 
 import java.util.ArrayList;
@@ -15,8 +16,6 @@ import java.util.List;
  * Created by dhiresh on 2/12/14.
  */
 public class QuestionView extends Controller {
-
-    static List<Subject> subjects = Application.subjects;
 
     public static class UserQuestion {
         public String title;
@@ -70,7 +69,7 @@ public class QuestionView extends Controller {
     @Security.Authenticated(Secured.class)
     public static Result viewQuestionById(long id) {
 
-        ArrayList<AnswerWithComments> answerWithComments = new ArrayList<>();
+        ArrayList<AnswerWithComments> answerWithComments = new ArrayList<AnswerWithComments>();
 
         Question question = Question.find.ref(id);
 
@@ -83,7 +82,7 @@ public class QuestionView extends Controller {
             answerWithComments.add(new AnswerWithComments(answer, comments));
         }
 
-        return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm,subjects));
+        return ok(views.html.displayquestion.render(question, answerWithComments, answerForm));
     }
 
     @Security.Authenticated(Secured.class)
@@ -112,7 +111,6 @@ public class QuestionView extends Controller {
         Question question = Answer.find.ref(id).question;
 
         if(currentForm.hasErrors()) {
-
             /*
             Gets all answers for this question
              */
@@ -122,7 +120,7 @@ public class QuestionView extends Controller {
                 answerWithComments.add(new AnswerWithComments(answer, comments));
             }
 
-            return badRequest(views.html.displayquestion.render(question, answerWithComments, answerForm,subjects));
+            return ok(views.html.displayquestion.render(question, answerWithComments, answerForm));
         }
         Comment.create(currentForm.get().body,new java.sql.Date(new java.util.Date().getTime()), session("usn"),id);
 
@@ -137,7 +135,7 @@ public class QuestionView extends Controller {
         if(currentForm.hasErrors()) {
             List<Question> list = Question.getSubjectQuestions(subject);
             flash("error","Field(s) cannot be empty");
-            return badRequest(display.render(list,subject,questionForm,subjects));
+            return badRequest(display.render(list,subject,questionForm));
         }
         Question.create(currentForm.get().title,currentForm.get().body,new java.sql.Date(new java.util.Date().getTime()),session("usn"),subject);
 
@@ -146,9 +144,8 @@ public class QuestionView extends Controller {
 
     @Security.Authenticated(Secured.class)
     public static Result viewAllQuestions(String name){
-
         List<Question> list = Question.getSubjectQuestions(name);
-        return ok(display.render(list,name,questionForm,subjects));
+        return ok(display.render(list,name,questionForm));
     }
 
     public static Result deleteCommentById(long id) {

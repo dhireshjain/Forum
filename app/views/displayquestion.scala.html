@@ -1,6 +1,6 @@
-@(question: Question, answerWithComments: List[QuestionView.AnswerWithComments], form: Form[QuestionView.UserAnswer], subjects:List[Subject])
+@(question: Question, answerWithComments: List[QuestionView.AnswerWithComments], form: Form[QuestionView.UserAnswer])
 
-@main(question.title, subjects){
+@main(question.title){
     <br>
     <div class="panel panel-default" style="background-color: white; padding: 1em;">
         <h2 class="panel-heading" style="background-color: rgb(153, 148, 148); text-align: center">@question.title
@@ -34,28 +34,30 @@
                 <a href="@routes.QuestionView.deleteAnswerById(i.answer.id)"><button class="btn-danger">Delete Answer</button></a>
             }
             <br><br>
-            <h4 class="bg-primary" style="text-align: center">Comments</h4>
-            <ul class="list-group">
-            @for(j<-i.comments){
-            <li class="list-group-item" style="text-align: right"><strong>USN:</strong> @j.user.usn <strong>Time:</strong> @j.time</li>
-            <li class="list-group-item">@j.body</li>
+            <div class="row" style="margin-left:2em ">
+                <h4 class="bg-primary" style="text-align: center">Comments</h4>
+                <ul class="list-group">
+                @for(j<-i.comments){
+                <li class="list-group-item" style="text-align: right"><strong>USN:</strong> @j.user.usn <strong>Time:</strong> @j.time</li>
+                <li class="list-group-item">@j.body</li>
+                    <br>
+                @if(session().get("usn").compareTo(j.user.usn)==0) {
+                <a href="@routes.QuestionView.deleteCommentById(j.id)"><button class="btn-danger">Delete Comment</button></a>
+                    <br>
+                    }
+                    <hr style="border: solid 1px;">
+                 }
+                 </ul>
                 <br>
-            @if(session().get("usn").compareTo(j.user.usn)==0) {
-            <a href="@routes.QuestionView.deleteCommentById(j.id)"><button class="btn-danger">Delete Comment</button></a>
-                <br>
+                @helper.form(routes.QuestionView.addComment(i.answer.id)) {
+
+                    <h4>Leave a Comment:</h4>
+                    <textarea name = "body" class="expanding" rows="3"></textarea>
+                    <br>
+                    <button type="submit" class="btn-primary">Submit Comment</button>
+
                 }
-                <hr style="border: solid 1px;">
-             }
-             </ul>
-            <br>
-            @helper.form(routes.QuestionView.addComment(i.answer.id)) {
-
-                <h4>Leave a Comment:</h4>
-                <textarea name = "body" class="expanding" rows="3"></textarea>
-                <br>
-                <button type="submit" class="btn-primary">Submit Comment</button>
-
-            }
+            </div>
         </div>
     }
 

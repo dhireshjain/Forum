@@ -19,7 +19,7 @@ public class Application extends Controller {
 
     public static Result index(int semester) {
         sem = semester;
-        subjects = Subject.getSubjectsOfSem(sem);
+        setSubjects();
         return ok(index.render(subjects));
     }
 
@@ -53,7 +53,7 @@ public class Application extends Controller {
 
     public static Result login(){
         if(!session().containsKey("usn"))
-            return ok(enter.render(loginForm,signupForm,subjects));
+            return ok(enter.render(loginForm,signupForm));
         else
             return redirect(controllers.routes.Application.index(sem));
     }
@@ -62,7 +62,7 @@ public class Application extends Controller {
         Form<Login> login = form(Login.class).bindFromRequest();
 
         if(login.hasErrors()) {
-            return badRequest(enter.render(login, signupForm,subjects));
+            return badRequest(enter.render(login, signupForm));
         }
         else{
             session().clear();
@@ -76,7 +76,7 @@ public class Application extends Controller {
         Form<SignUp> signUp = signupForm.bindFromRequest();
 
         if(signUp.hasErrors()) {
-            return badRequest(enter.render(loginForm, signUp,subjects));
+            return badRequest(enter.render(loginForm, signUp));
         }
         else{
             SignUp obj = signUp.get();
@@ -98,4 +98,9 @@ public class Application extends Controller {
         return ok(views.html.profile.render());
     }
 
+    public static int getSem() { return sem; }
+
+    public static void setSubjects(){
+        subjects = Subject.getSubjectsOfSem(sem);
+    }
 }
